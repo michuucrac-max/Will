@@ -1,25 +1,19 @@
 import {
   SlashCommandBuilder,
-  PermissionFlagsBits,
   ChannelType
 } from "discord.js";
-
-// ======================================
-// COMANDOS DE WILL
-// ======================================
 
 const commands = [
 
   // ESTADO
   new SlashCommandBuilder()
     .setName("will")
-    .setDescription("Muestra la información de WILL"),
+    .setDescription("Muestra el estado de WILL"),
 
   // BAN
   new SlashCommandBuilder()
     .setName("ban")
     .setDescription("Banea a un usuario")
-    .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
     .addUserOption(o =>
       o.setName("usuario")
         .setDescription("Usuario que será baneado")
@@ -35,7 +29,6 @@ const commands = [
   new SlashCommandBuilder()
     .setName("kick")
     .setDescription("Expulsa a un usuario")
-    .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers)
     .addUserOption(o =>
       o.setName("usuario")
         .setDescription("Usuario que será expulsado")
@@ -50,8 +43,7 @@ const commands = [
   // TIMEOUT
   new SlashCommandBuilder()
     .setName("timeout")
-    .setDescription("Silencia temporalmente a un usuario")
-    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
+    .setDescription("Aplica un timeout")
     .addUserOption(o =>
       o.setName("usuario")
         .setDescription("Usuario")
@@ -60,9 +52,9 @@ const commands = [
     .addIntegerOption(o =>
       o.setName("minutos")
         .setDescription("Duración en minutos")
-        .setRequired(true)
         .setMinValue(1)
         .setMaxValue(40320)
+        .setRequired(true)
     )
     .addStringOption(o =>
       o.setName("motivo")
@@ -73,24 +65,52 @@ const commands = [
   // PURGE
   new SlashCommandBuilder()
     .setName("purge")
-    .setDescription("Elimina mensajes recientes")
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
+    .setDescription("Elimina una cantidad de mensajes")
     .addIntegerOption(o =>
       o.setName("cantidad")
         .setDescription("Cantidad de mensajes (1-100)")
-        .setRequired(true)
         .setMinValue(1)
         .setMaxValue(100)
+        .setRequired(true)
+    ),
+
+  // PURGEALL
+  new SlashCommandBuilder()
+    .setName("purgeall")
+    .setDescription("Elimina todo el historial del canal actual")
+    .addStringOption(o =>
+      o.setName("confirmacion")
+        .setDescription("Escribe BORRAR TODO")
+        .setRequired(true)
+    ),
+
+  // KICKALL
+  new SlashCommandBuilder()
+    .setName("kickall")
+    .setDescription("Expulsa a todos los miembros elegibles")
+    .addStringOption(o =>
+      o.setName("confirmacion")
+        .setDescription("Escribe CONFIRMO KICKALL")
+        .setRequired(true)
+    ),
+
+  // BANALL
+  new SlashCommandBuilder()
+    .setName("banall")
+    .setDescription("Banea a todos los miembros elegibles")
+    .addStringOption(o =>
+      o.setName("confirmacion")
+        .setDescription("Escribe CONFIRMO BANALL")
+        .setRequired(true)
     ),
 
   // LOCKDOWN
   new SlashCommandBuilder()
     .setName("lockdown")
     .setDescription("Bloquea un canal")
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
     .addChannelOption(o =>
       o.setName("canal")
-        .setDescription("Canal que se bloqueará")
+        .setDescription("Canal que será bloqueado")
         .addChannelTypes(
           ChannelType.GuildText,
           ChannelType.GuildAnnouncement
@@ -102,10 +122,9 @@ const commands = [
   new SlashCommandBuilder()
     .setName("unlockdown")
     .setDescription("Desbloquea un canal")
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
     .addChannelOption(o =>
       o.setName("canal")
-        .setDescription("Canal que se desbloqueará")
+        .setDescription("Canal que será desbloqueado")
         .addChannelTypes(
           ChannelType.GuildText,
           ChannelType.GuildAnnouncement
@@ -117,10 +136,9 @@ const commands = [
   new SlashCommandBuilder()
     .setName("emergency")
     .setDescription("Activa el bloqueo de emergencia")
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addBooleanOption(o =>
       o.setName("confirmar")
-        .setDescription("Confirmar bloqueo de emergencia")
+        .setDescription("Confirmar operación")
         .setRequired(true)
     ),
 
@@ -128,7 +146,6 @@ const commands = [
   new SlashCommandBuilder()
     .setName("emergency-release")
     .setDescription("Restaura los canales bloqueados")
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addBooleanOption(o =>
       o.setName("confirmar")
         .setDescription("Confirmar restauración")
@@ -138,8 +155,7 @@ const commands = [
   // ANTISPAM TEST
   new SlashCommandBuilder()
     .setName("antispam-test")
-    .setDescription("Comprueba el sistema anti-spam")
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+    .setDescription("Realiza una prueba de envío")
     .addChannelOption(o =>
       o.setName("canal")
         .setDescription("Canal de prueba")
@@ -149,17 +165,16 @@ const commands = [
     .addIntegerOption(o =>
       o.setName("cantidad")
         .setDescription("Cantidad de mensajes (1-5)")
-        .setRequired(true)
         .setMinValue(1)
         .setMaxValue(5)
+        .setRequired(true)
     )
     .addStringOption(o =>
       o.setName("confirmacion")
-        .setDescription("Escribe exactamente: CONFIRMO PRUEBA")
+        .setDescription("Escribe CONFIRMO PRUEBA")
         .setRequired(true)
     )
 
 ];
 
-// EXPORTACIÓN
 export { commands };
