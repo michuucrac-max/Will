@@ -2,10 +2,13 @@
 import {
   Client,
   GatewayIntentBits,
-  Events,
   PermissionFlagsBits,
-  EmbedBuilder
+  ChannelType,
+  REST,
+  Routes
 } from "discord.js";
+
+import { commands } from "./commands.js";
 
 const { TOKEN } = process.env;
 
@@ -564,4 +567,21 @@ process.on("unhandledRejection", error => {
   console.error("WILL UNHANDLED:", error);
 });
 
-client.login(TOKEN);
+async function startWILL() {
+  const rest = new REST({ version: "10" }).setToken(TOKEN);
+
+  console.log("WILL está registrando sus comandos...");
+
+  await rest.put(
+    Routes.applicationCommands(process.env.CLIENT_ID),
+    {
+      body: commands.map(command => command.toJSON())
+    }
+  );
+
+  console.log("Comandos registrados correctamente.");
+
+  await client.login(TOKEN);
+}
+
+startWILL().catch(console.error);
