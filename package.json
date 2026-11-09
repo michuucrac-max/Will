@@ -1,0 +1,17 @@
+
+{
+  "name": "will-security-bot",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "deploy": "node commands.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.27.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
